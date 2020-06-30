@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Shop{% endblock title %}
+{% block content %}
+
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'home' %}">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+
+        <div class="row mb-5">
+          <div class="col-md-9 order-2">
+            <div class="row mb-5">
+                {% for i in product %}
+              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                <div class="block-4 text-center border">
+                  <figure class="block-4-image">
+                    <a href="{% url 'product' i.0 %}"><img src="{{ i.1.url }}" alt="{{ i.0 }}" class="img-fluid"></a>
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <h3><a href="{% url 'product' i.0 %}">{{ i.0 }}</a></h3>
+
+                    <p class="text-primary font-weight-bold">{{ i.3|safe }}</p>
+                  </div>
+                </div>
+              </div>
+                {% endfor %}
+
+            </div>
+            <div class="row" data-aos="fade-up">
+              <div class="col-md-12 text-center">
+                <div class="site-block-27">
+                  <ul>
+                      {% for i in count_page %}
+                        <li><a href="{% url 'shop_page' forloop.counter %}">{{ forloop.counter }}</a></li>
+                      {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 order-1 mb-5 mb-md-0">
+            <div class="border p-4 rounded mb-4">
+              <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
+              <ul class="list-unstyled mb-0">
+                  {% for i in cat %}
+                      <li class="mb-1"><a href="{% url 'category' i.name %}" class="d-flex"><span>{{ i.name }}</span></a></li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="site-section site-blocks-2">
+                <div class="row justify-content-center text-center mb-5">
+                  <div class="col-md-7 site-section-heading pt-4">
+                    <h2>Categories</h2>
+                  </div>
+                </div>
+                <div class="row">
+                    {% for i in cat %}
+                  <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
+                    <a class="block-2-item" href="{% url 'category' i.name %}">
+                      <figure class="image">
+                        <img src="{{ i.image.url }}" alt="" class="img-fluid">
+                      </figure>
+                      <div class="text">
+                        <span class="text-uppercase">Collections</span>
+                        <h3>{{ i.name }}</h3>
+                      </div>
+                    </a>
+                  </div>
+                    {% endfor %}
+                </div>
+              
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+{% endblock content %}

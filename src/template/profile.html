@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+{% block content %}
+
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'home' %}">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Profile</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-12">
+            <div class="site-blocks-table">
+            <h3>Your payed orders</h3>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">Image</th>
+                    <th class="product-name">Product</th>
+                      <th class="product-name">Date</th>
+                    <th class="product-quantity">Quantity</th>
+                    <th class="product-total">Total</th>
+                    <th class="product-remove">Send</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for i in detail %}
+                  <tr>
+                    <td class="product-thumbnail">
+                      <img src="{{ i.0.url }}" alt="Image" class="img-fluid">
+                    </td>
+                    <td class="product-name">
+                      <h2 class="h5 text-black"><a target="_blank" href="{% url 'product' i.1 %}">{{ i.1 }}</a></h2>
+                    </td>
+                    <td>{{ i.2 }}</td>
+                      <td>{{ i.3 }}</td>
+                      <td>${{ i.4 }}</td>
+                      <td>
+                          {% ifequal i.5 True %}
+                          Sent
+                          {% else %}
+                          Don't Send
+                          {% endifequal %}
+                      </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+        </div>
+
+        <div class="row mb-5">
+          <div class="col-md-12">
+            <div class="site-blocks-table">
+            <h3>Update your profile details</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <br>
+                    <input type="submit" name="submit" value="Update" class="btn btn-primary" >
+                </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Checkout{% endblock title %}
+{% block content %}
+
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'home' %}">Home</a> <span class="mx-2 mb-0">/</span> <a href="{% url 'cart' %}">Cart</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Checkout</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+          {% ifequal auth 0 %}
+        <div class="row mb-5">
+          <div class="col-md-12">
+            <div class="border p-4 rounded" role="alert">
+              Returning customer? <a href="{% url 'login' %}">Click here</a> to login
+            </div>
+          </div>
+        </div>
+          {% endifequal %}
+        <div class="row">
+          <div class="col-md-6 mb-5 mb-md-0">
+            <h2 class="h3 mb-3 text-black">Billing Details</h2>
+            <div class="p-3 p-lg-5 border">
+
+                {% ifequal auth 0 %}
+                <h4>Please login or register first form <a href="{% url 'login' %}">THIS PAGE</a>.</h4>
+                {% else %}
+                    {% for i in user %}
+                        <div class="text-dark">
+                        <p>Name : {{ i.name }}<p></p>
+                        <p>Email : {{ i.email }}</p>
+                        <p>Phone number : {{ i.mobile }}</p>
+                        <p>Address : {{ i.address }}</p>
+                        <p>Postal Code : {{ i.postal_code }}</p>
+                        </div>
+                    {% endfor %}
+                    <p>If you want to change this details, please go to <a href="{% url 'Profile' %}">Profile</a> page.</p>
+                {% endifequal %}
+            </div>
+          </div>
+          <div class="col-md-6">
+
+            <div class="row mb-5">
+              <div class="col-md-12">
+                <h2 class="h3 mb-3 text-black">Coupon Code</h2>
+                <div class="p-3 p-lg-5 border">
+                  
+                  <label for="c_code" class="text-black mb-3">Enter your coupon code if you have one</label>
+                  <div class="input-group w-75">
+                    <input type="text" class="form-control" id="c_code" placeholder="Coupon Code" aria-label="Coupon Code" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary btn-sm" type="button" id="button-addon2">Apply</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            
+            <div class="row mb-5">
+              <div class="col-md-12">
+                <h2 class="h3 mb-3 text-black">Your Order</h2>
+                <div class="p-3 p-lg-5 border">
+                  <table class="table site-block-order-table mb-5">
+                    <thead>
+                        <th>Image</th>
+                      <th>Product</th>
+                      <th>Total</th>
+                    </thead>
+                    <tbody>
+                    {% for i in order %}
+                      <tr>
+                      <td class="product-thumbnail"><img class="img-fluid" src="{{ i.3.url }}"></td>
+                        <td><a href="{% url 'product' i.0 %}">{{ i.0 }}</a> <strong class="mx-2">x</strong> {{ i.1 }}</td>
+                        <td>${{ i.2 }}</td>
+                      </tr>
+                    {% endfor %}
+                      <tr>
+                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                        <td class="text-black">${{ sub_total }}</td>
+                      </tr>
+                        <tr>
+                        <td class="text-black font-weight-bold"><strong>Sender Price</strong></td>
+                        <td class="text-black">${{ sender_price }}</td>
+                      </tr>
+                      <tr>
+                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                        <td class="text-black font-weight-bold"><strong>${{ total }}</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="form-group">
+                    <a class="btn btn-primary btn-lg py-3 btn-block" href="{% url 'place_order' %}">Place Order</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- </form> -->
+      </div>
+    </div>
+
+{% endblock %}
